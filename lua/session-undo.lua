@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
 	if not vim.o.undofile then
-		vim.print("Please enable persistent undo: `vim.o.undofile = true`")
+		vim.notify("Please enable persistent undo: `vim.o.undofile = true`", vim.log.levels.WARN)
 	end
 
 	vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
