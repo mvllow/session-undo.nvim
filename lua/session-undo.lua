@@ -5,8 +5,7 @@ function M.setup()
 		vim.print("Please enable persistent undo: `vim.o.undofile = true`")
 	end
 
-	-- Add a session boundary when entering vim.
-	vim.api.nvim_create_autocmd("VimEnter", {
+	vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 		callback = function()
 			local bufnr = vim.api.nvim_get_current_buf()
 			local undotree = vim.fn.undotree()
@@ -31,7 +30,6 @@ function M.setup()
 			print("Current buffer:", bufnr)
 			print("Session boundary:", boundary)
 		end
-
 
 		local undotree = vim.fn.undotree()
 		if not undotree.entries or #undotree.entries == 0 then
