@@ -14,10 +14,6 @@ function M.setup()
 				-- Store the boundary as a buffer variable
 				vim.b[bufnr] = vim.b[bufnr] or {}
 				vim.b[bufnr].session_boundary = undotree.seq_cur
-
-				if vim.g.session_undo_debug == 1 then
-					print("Set session boundary for buffer", bufnr, "at seq", undotree.seq_cur)
-				end
 			end
 		end
 	})
@@ -26,19 +22,9 @@ function M.setup()
 		local bufnr = vim.api.nvim_get_current_buf()
 		local boundary = vim.b[bufnr] and vim.b[bufnr].session_boundary
 
-		if vim.g.session_undo_debug == 1 then
-			print("Current buffer:", bufnr)
-			print("Session boundary:", boundary)
-		end
-
 		local undotree = vim.fn.undotree()
 		if not undotree.entries or #undotree.entries == 0 then
 			return false
-		end
-
-		if vim.g.session_undo_debug == 1 then
-			print("Current sequence:", undotree.seq_cur)
-			print("Next undo sequence:", undotree.seq_cur - 1)
 		end
 
 		local next_seq = undotree.seq_cur - 1
