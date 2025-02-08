@@ -9,6 +9,13 @@ function M.setup()
 		callback = function()
 			local bufnr = vim.api.nvim_get_current_buf()
 			local undotree = vim.fn.undotree()
+
+			-- No-op to initialise undotree if it's empty
+			if (not undotree.entries or #undotree.entries == 0) and vim.fn.filereadable(vim.api.nvim_buf_get_name(bufnr)) == 1 then
+				vim.cmd("silent normal! ix\u{8}")
+				undotree = vim.fn.undotree()
+			end
+
 			-- Store the current sequence number as a session boundary
 			if undotree.entries and #undotree.entries > 0 then
 				-- Store the boundary as a buffer variable
